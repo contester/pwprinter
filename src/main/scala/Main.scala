@@ -1,6 +1,7 @@
 package org.stingray.contester.pwprinter
 
 import com.typesafe.config.ConfigFactory
+import slick.jdbc.GetResult
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Await, Future}
@@ -30,9 +31,15 @@ object Main extends App {
 
   private val db = Database.forConfig("default")
 
+  implicit val toContestTeam = GetResult(r =>
+    ContestTeam(
+      Contest(r.nextInt(), r.nextString()),
+    LocalTeam(r.nextInt(), r.nextString(), r.nextIntOption(), r.nextString())
+    )
+  )
+
   val teams = Await.result(db.run(
-    sql"""
-select Assignments.Username,
+    sql"""select
           Assignments.Contest as ContestID,
           Contests.Name as ContestName,
           Assignments.LocalID as LocalID,
