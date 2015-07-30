@@ -6,11 +6,8 @@ import slick.jdbc.GetResult
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Await, Future}
 
-trait Team {
-  def schoolName: String
-  def teamNum: Option[Int]
-  def teamName: String
-
+case class Team(localId: Int, schoolName: String, teamNum: Option[Int], teamName: String, username: String,
+                     password: String) {
   def schoolNameWithNum: String = s"$schoolName" + teamNum.map(x => s" #$x").getOrElse("")
   def teamFullName: String = {
     schoolNameWithNum +
@@ -18,8 +15,6 @@ trait Team {
       else "")
   }
 }
-
-case class LocalTeam(localId: Int, schoolName: String, teamNum: Option[Int], teamName: String) extends Team
 case class Contest(id: Int, name: String)
 
 case class ContestTeam(contest: Contest, team: Team)
@@ -34,7 +29,7 @@ object Main extends App {
   implicit val toContestTeam = GetResult(r =>
     ContestTeam(
       Contest(r.nextInt(), r.nextString()),
-    LocalTeam(r.nextInt(), r.nextString(), r.nextIntOption(), r.nextString())
+      Team(r.nextInt(), r.nextString(), r.nextIntOption(), r.nextString(), r.nextString(), r.nextString())
     )
   )
 
@@ -45,7 +40,9 @@ object Main extends App {
           Assignments.LocalID as LocalID,
           Schools.Name as SchoolName,
           Teams.Num as TeamNum,
-          Teams.Name as TeamName
+          Teams.Name as TeamName,
+          Assignments.Username,
+          Assignments.Password
           from Assignments, Participants, Contests, Teams, Schools
          where
          Assignments.Contest = Contests.ID and Participants.Contest = Contests.ID and
@@ -54,6 +51,6 @@ object Main extends App {
     """.as[ContestTeam]
   ), 10.seconds)
 
-  println(teams)
+  println(tex.passwords(teams).body)
 
 }

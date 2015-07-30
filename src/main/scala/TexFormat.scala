@@ -1,23 +1,30 @@
 package org.stingray.contester.pwprinter
 
-import play.twirl.api.{BufferedContent, Format, MimeTypes, Appendable}
+import play.twirl.api._
 
 import scala.collection.immutable.Seq
 import scala.collection.parallel.immutable
 
-class Tex(elements: Seq[Tex], text: String) extends BufferedContent[Tex](elements, text) {
+class Tex(val body: String) extends Appendable[Tex] with Content {
   override def contentType: String = "application/x-latex"
-
-  def this(elements: Seq[Tex]) = this(elements, "")
-  def this(text: String) = this(Nil, text)
 }
 
 object TexFormat extends Format[Tex] {
-  override def raw(text: String): Tex = new Tex(value)
+  override def raw(text: String): Tex = new Tex(text)
 
-  override def escape(text: String): Tex = ???
+  private val textEntities = Map(
+    '%' -> "\\%",
+  '$' -> "\\$",
+  '_' -> "\\_",
+  '{' -> "\\{",
+  '#' -> "\\#"
+  ).withDefault(_.toString)
 
-  override def empty: Tex = ???
+  override def escape(text: String): Tex =
+    new Tex(text.map(textEntities).mkString)
 
-  override def fill(elements: Seq[Tex]): Tex = ???
+  override def empty: Tex = new Tex("")
+
+  override def fill(elements: Seq[Tex]): Tex =
+    new Tex(elements.map(_.body).mkString)
 }

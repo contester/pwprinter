@@ -34,3 +34,5 @@ libraryDependencies ++= Seq(
   "com.zaxxer" % "HikariCP" % "2.3.9",
   "org.scalatest" %% "scalatest" % "2.2.3" % "test"
 ).map(_.exclude("org.slf4j", "slf4j-jdk14"))
+
+TwirlKeys.templateFormats += ("tex" -> "org.stingray.contester.pwprinter.TexFormat")
