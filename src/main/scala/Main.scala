@@ -45,7 +45,7 @@ object Main extends App {
           Assignments.LocalID as LocalID,
           Schools.Name as SchoolName,
           Teams.Num as TeamNum,
-          Teams.Name as TeamName,
+          Teams.Name as TeamName
           from Assignments, Participants, Contests, Teams, Schools
          where
          Assignments.Contest = Contests.ID and Participants.Contest = Contests.ID and
