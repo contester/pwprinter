@@ -1,0 +1,8 @@
+target/
+lib_managed/
+src_managed/
+project/boot/
+/.idea/workspace.xml
+/dispatcher.conf
+/server.conf
+/src/main/resources/application.conf
