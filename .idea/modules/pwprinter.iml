@@ -36,5 +36,6 @@
     <orderEntry type="library" name="SBT: com.zaxxer:HikariCP:2.3.9:jar" level="project" />
     <orderEntry type="library" name="SBT: org.javassist:javassist:3.18.2-GA:jar" level="project" />
     <orderEntry type="library" name="SBT: org.slf4j:slf4j-api:1.7.10:jar" level="project" />
+    <orderEntry type="library" name="SBT: commons-io:commons-io:2.4:jar" level="project" />
   </component>
 </module>

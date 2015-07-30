@@ -1,6 +1,9 @@
 package org.stingray.contester.pwprinter
 
+import java.io.File
+
 import com.typesafe.config.ConfigFactory
+import org.apache.commons.io.FileUtils
 import slick.jdbc.GetResult
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -49,8 +52,12 @@ object Main extends App {
          Participants.LocalID = Assignments.LocalID and Participants.Team = Teams.ID and
          Teams.School = Schools.ID
     """.as[ContestTeam]
-  ), 10.seconds)
+  ), 10.seconds).groupBy(_.contest.id)
 
-  println(tex.passwords(teams).body)
+  for (c <- teams) {
+    FileUtils.writeStringToFile(new File(s"stubs${c._1}.tex"), tex.passwords(c._2.sortBy(_.team.teamFullName)).body)
+  }
+
+
 
 }

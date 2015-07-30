@@ -13,7 +13,7 @@ version := "0.1"
 organization := "org.stingray.contester"
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-optimise", "-explaintypes", "-Xcheckinit",
-  "-Xlint")
+  "-Xlint", "-Xno-uescape")
 
 resolvers ++= Seq(
     "twitter.com" at "http://maven.twttr.com/",
@@ -32,6 +32,7 @@ libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.3.0",
   "com.typesafe.slick" %% "slick" % "3.1.0-M1",
   "com.zaxxer" % "HikariCP" % "2.3.9",
+  "commons-io" % "commons-io" % "2.4",
   "org.scalatest" %% "scalatest" % "2.2.3" % "test"
 ).map(_.exclude("org.slf4j", "slf4j-jdk14"))
 

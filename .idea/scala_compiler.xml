@@ -9,6 +9,7 @@
       <parameters>
         <parameter value="-Xcheckinit" />
         <parameter value="-Xlint" />
+        <parameter value="-Xno-uescape" />
       </parameters>
     </profile>
   </component>
