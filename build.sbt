@@ -4,9 +4,9 @@ enablePlugins(SbtTwirl)
 
 name := "pwprinter"
 
-fork in (Compile, run) := true
+scalaVersion := "2.11.11"
 
-scalaVersion := "2.11.7"
+updateOptions := updateOptions.value.withCachedResolution(true)
 
 version := "0.1"
 
@@ -28,11 +28,11 @@ resolvers ++= Seq(
 val opRabbitVersion = "1.0.0-M11"
 
 libraryDependencies ++= Seq(
-  "mysql" % "mysql-connector-java" % "5.1.36",
-  "com.typesafe" % "config" % "1.3.0",
-  "com.typesafe.slick" %% "slick" % "3.1.0-M1",
-  "com.zaxxer" % "HikariCP" % "2.3.9",
-  "commons-io" % "commons-io" % "2.4",
+  "org.mariadb.jdbc" % "mariadb-java-client" % "1.6.5",
+  "com.typesafe" % "config" % "1.3.1",
+  "com.typesafe.slick" %% "slick" % "3.2.1",
+  "com.zaxxer" % "HikariCP" % "2.6.3",
+  "commons-io" % "commons-io" % "2.5",
   "org.scalatest" %% "scalatest" % "2.2.3" % "test"
 ).map(_.exclude("org.slf4j", "slf4j-jdk14"))
 
