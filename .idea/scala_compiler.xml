@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ScalaCompilerConfiguration">
-    <profile name="SBT 1" modules="pwprinter">
+    <profile name="sbt 1" modules="pwprinter_5055" />
+    <profile name="sbt 2" modules="pwprinter">
+      <option name="postfixOps" value="true" />
+      <option name="implicitConversions" value="true" />
+      <option name="higherKinds" value="true" />
+      <option name="existentials" value="true" />
       <option name="deprecationWarnings" value="true" />
       <option name="uncheckedWarnings" value="true" />
-      <option name="optimiseBytecode" value="true" />
-      <option name="explainTypeErrors" value="true" />
       <parameters>
-        <parameter value="-Xcheckinit" />
-        <parameter value="-Xlint" />
-        <parameter value="-Xno-uescape" />
+        <parameter value="-Xfatal-warnings" />
+        <parameter value="-Xasync" />
+        <parameter value="-opt:l:method" />
+        <parameter value="-opt:l:inline" />
+        <parameter value="-opt-inline-from:&lt;sources&gt;" />
       </parameters>
     </profile>
   </component>

@@ -4,36 +4,50 @@ enablePlugins(SbtTwirl)
 
 name := "pwprinter"
 
-scalaVersion := "2.11.11"
+scalaVersion := "2.12.17"
 
 updateOptions := updateOptions.value.withCachedResolution(true)
 
-version := "0.1"
+version := "0.2"
 
 organization := "org.stingray.contester"
 
-scalacOptions ++= Seq("-unchecked", "-deprecation", "-optimise", "-explaintypes", "-Xcheckinit",
-  "-Xlint", "-Xno-uescape")
+ThisBuild / useCoursier := false
+
+
+scalacOptions ++= Seq(
+  "-Xfatal-warnings",  // New lines for each options
+  "-deprecation",
+  "-Xasync",
+  "-unchecked",
+  "-language:implicitConversions",
+  "-language:higherKinds",
+  "-language:existentials",
+  "-language:postfixOps",
+  "-opt:l:method",
+  "-opt:l:inline",
+  "-opt-inline-from:<sources>",
+  "-Xno-uescape"
+)
+
+updateOptions := updateOptions.value.withCachedResolution(true)
 
 resolvers ++= Seq(
-    "twitter.com" at "http://maven.twttr.com/",
-    "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases",
-    "scala tools" at "http://scala-tools.org/repo-releases/",
-    "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/",
-    "typesafe artefactory" at "http://typesafe.artifactoryonline.com/typesafe/repo",
-    "SpinGo OSS" at "http://spingo-oss.s3.amazonaws.com/repositories/releases",
-    "stingr.net" at "http://stingr.net/maven"
+  Resolver.mavenLocal,
+  Resolver.jcenterRepo,
+  Resolver.sonatypeRepo("snapshots"),
+  Resolver.typesafeRepo("releases")
 )
 
 val opRabbitVersion = "1.0.0-M11"
 
 libraryDependencies ++= Seq(
-  "org.mariadb.jdbc" % "mariadb-java-client" % "1.6.5",
+  "org.stingray.contester" %% "contester-dbmodel" % "2022.0.1-SNAPSHOT",
+  "com.typesafe.slick" %% "slick" % "3.3.3",
+  "com.typesafe.slick" %% "slick-hikaricp" % "3.3.3",
   "com.typesafe" % "config" % "1.3.1",
-  "com.typesafe.slick" %% "slick" % "3.2.1",
-  "com.zaxxer" % "HikariCP" % "2.6.3",
-  "commons-io" % "commons-io" % "2.5",
-  "org.scalatest" %% "scalatest" % "2.2.3" % "test"
+  "org.scalatest" %% "scalatest" % "3.0.5" % "test",
+  "commons-io" % "commons-io" % "2.7"
 ).map(_.exclude("org.slf4j", "slf4j-jdk14"))
 
 TwirlKeys.templateFormats += ("tex" -> "org.stingray.contester.pwprinter.TexFormat")
